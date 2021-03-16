@@ -1,0 +1,24 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--nav-padding);
+  background-color: var(--white);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+.nav-link {
+  padding: 0 1.5rem;
+}
+.nav-fill {
+  background-color: var(--pirple);
+  color: var(--white);
+  letter-spacing: 1px;
+  font-weight: 300;
+  border-radius: 5px;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  margin-left: 1.5rem;
+}
