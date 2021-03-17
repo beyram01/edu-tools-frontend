@@ -1,0 +1,58 @@
+.contact {
+  padding: var(--nav-padding);
+  padding-bottom: 10rem;
+}
+.contact > h3 {
+  text-align: center;
+  margin: 3rem 0 6rem 0;
+}
+.contact label {
+  display: block;
+}
+.form-group {
+  margin: auto;
+  margin-bottom: 1rem;
+}
+form {
+  width: 70%;
+  margin: auto;
+}
+.form-group > input,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0 0.6rem 0.5rem;
+}
+.submit {
+  border: none;
+  background-color: var(--pirple);
+  color: var(--white);
+  width: 100%;
+  letter-spacing: 1px;
+  font-weight: 300;
+  padding: 0.6rem 0;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+@media (max-width: 850px) {
+  form {
+    width: 100%;
+  }
+  .form-group > input,
+  textarea {
+    width: 100%;
+    padding: 0.3rem 0 0.3rem 0.5rem;
+  }
+  #submit {
+    width: 100%;
+    padding: 0.4rem 0;
+  }
+  .contact > h3 {
+    margin: 1rem 0 3rem 0;
+  }
+}
+@media (max-width: 550px) {
+  .contact {
+    padding-bottom: 5rem;
+  }
+}

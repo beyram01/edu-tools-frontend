@@ -1,0 +1,9 @@
+footer {
+  background-color: var(--pirple);
+  text-align: center;
+  color: var(--white);
+  padding: 1rem 2rem;
+}
+.f-p {
+  font-size: 12px;
+}

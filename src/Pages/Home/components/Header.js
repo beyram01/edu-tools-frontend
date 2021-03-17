@@ -2,7 +2,11 @@ import React from "react";
 import { education_svg } from "../../../svgs";
 import "../css/Header.css";
 
-const Header = () => {
+const Header = ({ setLoginModel }) => {
+  const openLoginModel = () => {
+    setLoginModel(true);
+  };
+
   return (
     <section className="header">
       <div className="hero">
@@ -16,7 +20,9 @@ const Header = () => {
         </p>
         <div className="call-to-action">
           <button className="btn btn-stroke">Try Our Tools</button>
-          <button className="btn btn-fill">Get Started</button>
+          <button className="btn btn-fill" onClick={openLoginModel}>
+            Get Started
+          </button>
         </div>
       </div>
       {education_svg}

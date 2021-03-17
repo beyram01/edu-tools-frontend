@@ -1,11 +1,14 @@
 .header {
   padding: var(--nav-padding);
   padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-bottom: 12rem;
 }
 
 .pirple {
   color: var(--pirple);
+}
+.header > svg {
+  z-index: -1;
 }
 
 .btn {
@@ -34,7 +37,7 @@
   .header > svg {
     position: absolute;
     width: 600px;
-    right: -50px;
+    right: 0px;
   }
   .hero {
     max-width: 50vw;
@@ -46,13 +49,15 @@
   }
   .hero-description {
     margin-bottom: 4rem;
+    max-width: 600px;
   }
 }
 @media (max-width: 1050px) {
   .header > svg {
-    width: 500px;
-    right: -100px;
-    top: 35%;
+    position: absolute;
+    width: 450px;
+    right: 0;
+    top: 28%;
   }
   .hero-description {
     margin-bottom: 2.5rem;
@@ -67,11 +72,9 @@
   .header > svg {
     width: 80vw;
     position: absolute;
-    right: auto;
+    right: 0px;
     top: 15%;
-    margin-left: 10vw;
     opacity: 0.1;
-    transform: rotate(-15deg);
     z-index: -1;
   }
   .hero {
@@ -115,7 +118,10 @@
     margin-bottom: 2.5rem;
   }
   .btn {
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1rem;
     font-size: 13px;
+  }
+  .btn:nth-child(2) {
+    margin-left: 0.5rem;
   }
 }
