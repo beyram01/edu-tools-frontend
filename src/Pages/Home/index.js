@@ -12,9 +12,11 @@ const HomePage = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const [loginModel, setLoginModel] = useState(false);
   const [registerModel, setRegisterModel] = useState(false);
+
   useEffect(() => {
     window.onresize = () => setWidth(window.innerWidth);
   }, [width]);
+
   return (
     <div id="landing-page">
       {loginModel && <LoginPopup setLoginModel={setLoginModel} />}

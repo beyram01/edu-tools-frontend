@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { hamberger } from "../../../svgs";
+import { checkAuthentication, logoutUser } from "../../functions";
+import { useHistory } from "react-router-dom";
 import "../css/MobileNav.css";
 
 const MobileNav = ({ setLoginModel, setRegisterModel }) => {
   const [clicked, setClicked] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    setAuthenticated(checkAuthentication());
+  }, []);
 
   const openMenu = () => {
     setClicked(!clicked);
@@ -17,6 +26,11 @@ const MobileNav = ({ setLoginModel, setRegisterModel }) => {
     setRegisterModel(true);
   };
 
+  const logout = () => {
+    logoutUser();
+    history.push("/");
+  };
+
   return (
     <>
       <div className={clicked ? "hidden-menu clicked" : "hidden-menu"}>
@@ -26,33 +40,51 @@ const MobileNav = ({ setLoginModel, setRegisterModel }) => {
               Home
             </li>
           </a>
-          <a href="#contact">
+          <a href="/#contact">
             <li className="mobile-nav-link" onClick={openMenu}>
               Contact us
             </li>
           </a>
-          <a href="#">
-            <li
-              className="mobile-nav-link"
-              onClick={() => {
-                openLoginModel();
-                openMenu();
-              }}
-            >
-              Login
-            </li>
-          </a>
-          <a href="#">
-            <li
-              className="mobile-nav-link mobile-nav-fill"
-              onClick={() => {
-                openMenu();
-                openRegisterModel();
-              }}
-            >
-              Register
-            </li>
-          </a>
+          {authenticated ? (
+            <>
+              <a href="/dashboard">
+                <li className="mobile-nav-link">Dashboard</li>
+              </a>
+              <a href="">
+                <li
+                  className="mobile-nav-link mobile-nav-fill"
+                  onClick={logout}
+                >
+                  Logout
+                </li>
+              </a>
+            </>
+          ) : (
+            <>
+              <a href="#">
+                <li
+                  className="mobile-nav-link"
+                  onClick={() => {
+                    openLoginModel();
+                    openMenu();
+                  }}
+                >
+                  Login
+                </li>
+              </a>
+              <a href="#">
+                <li
+                  className="mobile-nav-link mobile-nav-fill"
+                  onClick={() => {
+                    openMenu();
+                    openRegisterModel();
+                  }}
+                >
+                  Register
+                </li>
+              </a>
+            </>
+          )}
         </ul>
       </div>
       <div className="mobile-nav">

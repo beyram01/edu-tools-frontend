@@ -19,10 +19,11 @@ const Contact = () => {
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
           <input
+            required={true}
             value={data.email}
             type="email"
             name="email"
-            id="email"
+            id="contact-email"
             placeholder="Email Address"
             onChange={handleChange}
           />
@@ -30,6 +31,7 @@ const Contact = () => {
         <div className="form-group">
           <label htmlFor="subject">Subject</label>
           <input
+            required={true}
             value={data.subject}
             type="text"
             name="subject"
@@ -41,6 +43,7 @@ const Contact = () => {
         <div className="form-group">
           <label htmlFor="message">Message</label>
           <textarea
+            required={true}
             value={data.message}
             name="message"
             id="message"

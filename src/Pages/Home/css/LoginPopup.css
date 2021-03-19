@@ -17,6 +17,19 @@
   padding: 1rem 2rem;
   z-index: 101;
 }
+
+.error-container {
+  width: 100%;
+  text-align: center;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.error-container > p {
+  font-size: 13px;
+}
+
 .login-container > div:nth-child(1) > svg {
   position: absolute;
   width: 22px;
@@ -62,6 +75,8 @@ form > p {
   text-align: center;
 }
 #google {
+  display: block;
+  text-align: center;
   border: none;
   width: 100%;
   color: var(--white);
