@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import api from "axios";
+import React, { useState, useEffect } from "react";
+import api from "./axios.config";
 import { useDispatch } from "react-redux";
-import { set_token } from "./Redux/user/userActions";
+import { fetch_user, delete_token } from "./Redux/user/userActions";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
   useLocation,
+  useHistory,
 } from "react-router-dom";
 import HomePage from "./Pages/Home/index.js";
 import Dashboard from "./Pages/Dashboard/index.js";
@@ -15,12 +16,39 @@ import "./css/App.css";
 
 function App() {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(set_token());
+    const checkAuth = async () => {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem("access_token");
+        if (token) {
+          const res = await api.get("/auth", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (res.data.authenticated) {
+            dispatch(
+              fetch_user({
+                username: res.data.user.username,
+                email: res.data.user.email,
+                token: token,
+              })
+            );
+          }
+        }
+        setLoading(false);
+      } catch (error) {
+        dispatch(delete_token());
+        setLoading(false);
+      }
+    };
+    checkAuth();
   }, []);
 
-  return (
+  return !loading ? (
     <>
       <Router>
         <Switch>
@@ -30,7 +58,10 @@ function App() {
           <Route path="/connect/google/redirect">
             <GoogleAuth />
           </Route>
-          <PrivateRoute path="/dashboard">
+          <PrivateRoute exact path="/dashboard">
+            <Redirect to="/dashboard/translator" />
+          </PrivateRoute>
+          <PrivateRoute path="/dashboard/:tool">
             <Dashboard />
           </PrivateRoute>
           <Route path="*">
@@ -39,6 +70,8 @@ function App() {
         </Switch>
       </Router>
     </>
+  ) : (
+    <h1>loading...</h1>
   );
 }
 
@@ -66,25 +99,42 @@ const PrivateRoute = ({ children, ...rest }) => {
 };
 // handle the callback from google.
 const GoogleAuth = () => {
-  /* From react-router-dom documentation */
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
-
-  const query = useQuery();
-  const token = query.get("id_token");
+  const [error, setError] = useState("");
+  const location = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getUserInformation = async () => {
-      const res = await api.get(`/auth/google/callback?access_token=${token}`);
-      console.log(res);
+      try {
+        const res = await api.get(`/auth/google/callback${location.search}`);
+        const token = res.data.jwt;
+        localStorage.setItem("access_token", token);
+        dispatch(
+          fetch_user({
+            username: res.data.user.username,
+            email: res.data.user.email,
+            token: token,
+          })
+        );
+        setTimeout(() => history.push("/dashboard"), 3000);
+      } catch (error) {
+        setError(
+          "Sorry your request to login failed. Wait Your page will Redirect automatically..."
+        );
+        setTimeout(() => history.push("/"), 3000);
+      }
     };
     getUserInformation();
   }, []);
 
   return (
     <>
-      <h1>Hello</h1>
+      <h1>
+        {error
+          ? error
+          : "You logged in successfully, Wait Your page will Redirect automatically..."}
+      </h1>
     </>
   );
 };

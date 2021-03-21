@@ -47,7 +47,7 @@ const MobileNav = ({ setLoginModel, setRegisterModel }) => {
           </a>
           {authenticated ? (
             <>
-              <a href="/dashboard">
+              <a href="/dashboard/translator">
                 <li className="mobile-nav-link">Dashboard</li>
               </a>
               <a href="">

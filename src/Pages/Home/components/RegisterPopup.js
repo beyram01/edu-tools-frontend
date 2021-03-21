@@ -6,6 +6,11 @@ import { useHistory } from "react-router-dom";
 import { close } from "../../../svgs";
 import "../css/LoginPopup.css";
 
+const BACKEND_URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:1337"
+    : "https://edu-tools.herokuapp.com";
+
 const RegisterPopup = ({ setRegisterModel }) => {
   const [formData, setFormData] = useState({
     username: "",
@@ -125,8 +130,7 @@ const RegisterPopup = ({ setRegisterModel }) => {
           </button>
           <p>Or Register with</p>
           <a
-            href="https://edu-tools.herokuapp.com/connect/google"
-            target="_blank"
+            href={`${BACKEND_URL}/connect/google`}
             type="submit"
             id="google"
             className="submit"

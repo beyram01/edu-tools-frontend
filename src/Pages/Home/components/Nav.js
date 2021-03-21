@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { checkAuthentication, logoutUser } from "../../functions";
 import { useHistory } from "react-router-dom";
 import "../css/Nav.css";
 
 const Nav = ({ setLoginModel, setRegisterModel }) => {
-  const [authenticated, setAuthenticated] = useState(false);
-
   const history = useHistory();
-
-  useEffect(() => {
-    setAuthenticated(checkAuthentication());
-  }, []);
 
   const openLoginModel = () => {
     setLoginModel(true);
@@ -33,9 +27,9 @@ const Nav = ({ setLoginModel, setRegisterModel }) => {
         <a href="/#contact">
           <li className="nav-link">Contact us</li>
         </a>
-        {authenticated ? (
+        {checkAuthentication() ? (
           <>
-            <a href="/dashboard">
+            <a href="/dashboard/translator">
               <li className="nav-link">Dashboard</li>
             </a>
             <a href="">

@@ -1,4 +1,10 @@
-import { FETCH_USER, SET_TOKEN } from "./userActions";
+import {
+  FETCH_USER,
+  SET_TOKEN,
+  DELETE_TOKEN,
+  SET_LOADING,
+  SET_ERROR,
+} from "./userActions";
 const initialState = {
   user: {
     username: "",
@@ -18,15 +24,32 @@ const userReducer = (state = initialState, action) => {
         ...state,
         user: { username: username, email: email, token: token },
       };
+
     case SET_TOKEN:
       const access_token = localStorage.getItem("access_token");
 
-      return (
-        access_token && {
-          ...state,
-          user: { ...state.user, token: access_token },
-        }
-      );
+      return access_token
+        ? {
+            ...state,
+            user: { username: "", email: "", token: access_token },
+          }
+        : state;
+
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case DELETE_TOKEN:
+      localStorage.removeItem("access_token");
+      return { ...state, user: { username: "", email: "", token: "" } };
     default:
       return state;
   }

@@ -4,8 +4,12 @@ import { loginUser } from "../../functions";
 import { fetch_user } from "../../../Redux/user/userActions";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import "../css/LoginPopup.css";
+
+const BACKEND_URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:1337"
+    : "https://edu-tools.herokuapp.com";
 
 const LoginPopup = ({ setLoginModel }) => {
   const [formData, setFormData] = useState({
@@ -29,25 +33,23 @@ const LoginPopup = ({ setLoginModel }) => {
   };
 
   const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      setLoading(true);
-      const res = await loginUser({
-        identifier: formData.email,
-        password: formData.password,
-      });
-      const resData = {
-        username: res.data.user.username,
-        email: res.data.user.email,
-        token: res.data.jwt,
-      };
-      dispatch(fetch_user(resData));
-      setLoading(false);
-      history.push("/dashboard");
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-    }
+    e.preventDefault();
+    setLoading(true);
+    const res = await loginUser({
+      identifier: formData.email,
+      password: formData.password,
+    });
+    const resData = {
+      username: res.data.user.username,
+      email: res.data.user.email,
+      token: res.data.jwt,
+    };
+    dispatch(fetch_user(resData));
+    setLoading(false);
+    history.push("/dashboard");
+    console.log(res);
+    //setError(error.message);
+    setLoading(false);
   };
 
   return (
@@ -92,8 +94,7 @@ const LoginPopup = ({ setLoginModel }) => {
           </button>
           <p>Or Login with</p>
           <a
-            href="https://edu-tools.herokuapp.com/connect/google"
-            target="_blank"
+            href={`${BACKEND_URL}/connect/google`}
             type="submit"
             id="google"
             className="submit"

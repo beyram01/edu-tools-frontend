@@ -1,0 +1,107 @@
+.tools-nav {
+  background-color: var(--pirple);
+  width: 20%;
+  height: 100%;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+  transition: 0.3s ease;
+}
+.controller {
+  display: none;
+}
+
+.tools-nav svg {
+  fill: var(--white);
+}
+.user,
+.tools-nav-link {
+  display: flex;
+  color: var(--white);
+}
+
+.user {
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+}
+.user > svg {
+  width: 35px;
+  margin-right: 1rem;
+}
+
+.tools-nav-link {
+  align-items: center;
+  padding: 0.8rem 0 0.8rem 1rem;
+  font-weight: 300;
+  transition: 0.3s ease;
+}
+.tools-nav-link:hover {
+  background-color: var(--dark-pirple);
+}
+.tools-nav-link > svg {
+  width: 45px;
+  margin-right: 1.5rem;
+}
+.tools-nav-link > p {
+  font-size: 15px;
+}
+.selected {
+  background-color: var(--dark-pirple);
+}
+
+@media (max-width: 1050px) {
+  .tools-nav {
+    width: 25%;
+  }
+}
+
+@media (max-width: 850px) {
+  .tools-nav {
+    width: 50vw;
+    position: absolute;
+    transform: translateX(-100%);
+    transition: 0.3s ease;
+  }
+  .controller {
+    display: block;
+    width: 50px;
+    padding: 0.3rem 0;
+    padding-bottom: 0.15rem;
+    position: absolute;
+    right: -40px;
+    top: 0.8rem;
+    background-color: var(--pirple);
+    border-radius: 0 10px 10px 0;
+    transition: 0.3s ease;
+  }
+  .controller > svg {
+    width: 10px;
+    margin-left: 27px;
+    fill: var(--white);
+  }
+
+  .tools-nav-open {
+    transform: translateX(0);
+  }
+  .controller-switch {
+    background-color: var(--dashboard-grey);
+    border-radius: 10px 0 0 10px;
+    right: -10px;
+  }
+  .controller-switch > svg {
+    fill: var(--pirple);
+    transform: rotate(180deg);
+    margin-left: 17px;
+  }
+}
+@media (max-width: 550px) {
+  .tools-nav {
+    width: 70vw;
+  }
+  .tools-nav-link > svg {
+    width: 35px;
+  }
+  .tools-nav-link > p {
+    font-size: 13px;
+  }
+}
