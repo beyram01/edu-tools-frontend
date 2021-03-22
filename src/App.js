@@ -24,16 +24,16 @@ function App() {
         setLoading(true);
         const token = localStorage.getItem("access_token");
         if (token) {
-          const res = await api.get("/auth", {
+          const res = await api.get("/users/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          if (res.data.authenticated) {
+          if (res.status === 200) {
             dispatch(
               fetch_user({
-                username: res.data.user.username,
-                email: res.data.user.email,
+                username: res.data.username,
+                email: res.data.email,
                 token: token,
               })
             );
@@ -61,7 +61,10 @@ function App() {
           <PrivateRoute exact path="/dashboard">
             <Redirect to="/dashboard/translator" />
           </PrivateRoute>
-          <PrivateRoute path="/dashboard/:tool">
+          <PrivateRoute exact path="/dashboard/:tool">
+            <Dashboard />
+          </PrivateRoute>
+          <PrivateRoute path="/dashboard/:tool/:title">
             <Dashboard />
           </PrivateRoute>
           <Route path="*">

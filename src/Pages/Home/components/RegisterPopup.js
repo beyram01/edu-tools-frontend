@@ -26,16 +26,15 @@ const RegisterPopup = ({ setRegisterModel }) => {
   const history = useHistory();
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     try {
-      e.preventDefault();
-      setLoading(true);
       if (formData.username.length < 3) {
         throw new Error("username is too short.");
       }
-      /*
       if (formData.password.length < 8) {
         throw new Error("password is too short.");
-      }*/
+      }
       if (formData.confirmPassword !== formData.password) {
         throw new Error("You need to confirm your password");
       }
@@ -44,14 +43,20 @@ const RegisterPopup = ({ setRegisterModel }) => {
         email: formData.email,
         password: formData.password,
       });
-      const resData = {
-        username: res.data.user.username,
-        email: res.data.user.email,
-        token: res.data.jwt,
-      };
-      dispatch(fetch_user(resData));
-      setLoading(false);
-      history.push("/dashboard");
+      const errorExist = res.data[0];
+      if (errorExist) {
+        const errorMessage = res.data[0].messages[0].message;
+        throw new Error(errorMessage);
+      } else {
+        const resData = {
+          username: res.data.user.username,
+          email: res.data.user.email,
+          token: res.data.jwt,
+        };
+        dispatch(fetch_user(resData));
+        setLoading(false);
+        history.push("/dashboard");
+      }
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -64,6 +69,7 @@ const RegisterPopup = ({ setRegisterModel }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
   return (
@@ -80,7 +86,6 @@ const RegisterPopup = ({ setRegisterModel }) => {
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
-              required={true}
               value={formData.username}
               type="username"
               name="username"
@@ -92,7 +97,6 @@ const RegisterPopup = ({ setRegisterModel }) => {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
-              required={true}
               value={formData.email}
               type="email"
               name="email"
@@ -104,7 +108,6 @@ const RegisterPopup = ({ setRegisterModel }) => {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
-              required={true}
               value={formData.password}
               type="password"
               name="password"
@@ -116,7 +119,6 @@ const RegisterPopup = ({ setRegisterModel }) => {
           <div className="form-group">
             <label htmlFor="password">Confirm Password</label>
             <input
-              required={true}
               value={formData.confirmPassword}
               type="password"
               name="confirmPassword"

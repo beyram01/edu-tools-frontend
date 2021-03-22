@@ -8,12 +8,16 @@ import Encyclopedia from "./components/Encyclopedia";
 
 const Dashboard = () => {
   const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
 
   const params = useParams();
 
   useEffect(() => {
-    window.onresize = () => setWidth(window.innerWidth);
-  }, [width]);
+    window.onresize = () => {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+    };
+  }, [width, height]);
 
   return (
     <div>
@@ -22,7 +26,12 @@ const Dashboard = () => {
         className="dashboard-container"
         style={{
           display: "flex",
-          height: width >= 850 ? "calc(100vh - 66.59px)" : "calc(100vh - 62px)",
+          height:
+            height > 570
+              ? width >= 850
+                ? "calc(100vh - 66.59px)"
+                : "calc(100vh - 62px)"
+              : "auto",
           position: "relative",
         }}
       >

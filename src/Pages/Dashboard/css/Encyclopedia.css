@@ -32,12 +32,22 @@ form > button:hover {
   height: 70%;
   background-color: var(--white);
   border: 1px solid var(--dark-grey);
+  overflow-y: scroll;
+}
+
+@media (max-height: 570px) {
+  .result {
+    height: 70vh;
+  }
 }
 
 @media (max-width: 850px) {
   .encyclopedia {
     width: 100%;
     padding: var(--nav-padding);
+  }
+  .encyclopedia > h4 {
+    text-align: center;
   }
 }
 @media (max-width: 850px) {

@@ -34,22 +34,30 @@ const LoginPopup = ({ setLoginModel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const res = await loginUser({
-      identifier: formData.email,
-      password: formData.password,
-    });
-    const resData = {
-      username: res.data.user.username,
-      email: res.data.user.email,
-      token: res.data.jwt,
-    };
-    dispatch(fetch_user(resData));
-    setLoading(false);
-    history.push("/dashboard");
-    console.log(res);
-    //setError(error.message);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const res = await loginUser({
+        identifier: formData.email,
+        password: formData.password,
+      });
+      const errorExist = res.data[0];
+      if (errorExist) {
+        const errorMessage = res.data[0].messages[0].message;
+        throw new Error(errorMessage);
+      } else {
+        const resData = {
+          username: res.data.user.username,
+          email: res.data.user.email,
+          token: res.data.jwt,
+        };
+        dispatch(fetch_user(resData));
+        setLoading(false);
+        history.push("/dashboard");
+      }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
   };
 
   return (
