@@ -1,5 +1,4 @@
 import api from "../axios.config";
-import { useSelector } from "react-redux";
 
 export const registerUser = async (data) => {
   const res = api.post("/auth/local/register", data);

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { registerUser } from "../../functions";
 import { fetch_user } from "../../../Redux/user/userActions";
 import { useHistory } from "react-router-dom";
 import { close } from "../../../svgs";
+import Spinner from "../../_GlobalComponents/Spinner";
 import "../css/LoginPopup.css";
 
 const BACKEND_URL =
@@ -128,7 +129,24 @@ const RegisterPopup = ({ setRegisterModel }) => {
             />
           </div>
           <button type="submit" id="register" className="submit">
-            {loading ? "..." : "Register"}
+            {loading ? (
+              <Spinner
+                cx="10"
+                cy="10"
+                r="10"
+                width="100%"
+                height="100%"
+                color="#ffffff"
+                spinnerWidth="25px"
+                spinnerheight="25px"
+                strokeWidth="2px"
+                transform="translate(2px, 2px)"
+                strokeDasharry="80"
+                strokeDashoffset="80"
+              />
+            ) : (
+              "Register"
+            )}
           </button>
           <p>Or Register with</p>
           <a

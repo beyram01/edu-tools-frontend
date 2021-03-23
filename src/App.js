@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./Pages/Home/index.js";
 import Dashboard from "./Pages/Dashboard/index.js";
+import Spinner from "./Pages/_GlobalComponents/Spinner";
 import "./css/App.css";
 
 function App() {
@@ -74,7 +75,7 @@ function App() {
       </Router>
     </>
   ) : (
-    <h1>loading...</h1>
+    <Spinner cx="20" cy="20" r="20" width="100%" height="100vh" />
   );
 }
 

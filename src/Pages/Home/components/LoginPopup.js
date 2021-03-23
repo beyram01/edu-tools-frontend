@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { close } from "../../../svgs";
 import { loginUser } from "../../functions";
 import { fetch_user } from "../../../Redux/user/userActions";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Spinner from "../../_GlobalComponents/Spinner";
 import "../css/LoginPopup.css";
 
 const BACKEND_URL =
@@ -93,12 +94,29 @@ const LoginPopup = ({ setLoginModel }) => {
               placeholder="Password"
               onChange={handleChange}
             />
-            <a href="#">
+            <a href="/forget-password">
               <p id="password-forget">forget your password?</p>
             </a>
           </div>
           <button type="submit" id="login" className="submit">
-            {loading ? "..." : "Login"}
+            {loading ? (
+              <Spinner
+                cx="10"
+                cy="10"
+                r="10"
+                width="100%"
+                height="100%"
+                color="#ffffff"
+                spinnerWidth="25px"
+                spinnerHeight="25px"
+                strokeWidth="2px"
+                transform="translate(2px, 2px)"
+                strokeDasharray="80"
+                strokeDashoffset="80"
+              />
+            ) : (
+              "Login"
+            )}
           </button>
           <p>Or Login with</p>
           <a

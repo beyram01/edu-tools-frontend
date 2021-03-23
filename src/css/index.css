@@ -31,11 +31,20 @@ li {
 h1 {
   font-size: 50px;
 }
+h2 {
+  font-size: 45px;
+}
 h3 {
   font-size: 40px;
 }
 h4 {
   font-size: 27px;
+}
+h5 {
+  font-size: 23px;
+}
+h6 {
+  font-size: 20px;
 }
 p {
   font-size: 18px;
@@ -45,14 +54,23 @@ p {
   h1 {
     font-size: 45px;
   }
+  h2 {
+    font-size: 41px;
+  }
   h3 {
     font-size: 38px;
   }
   h4 {
     font-size: 25px;
   }
+  h5 {
+    font-size: 20px;
+  }
+  h6 {
+    font-size: 18px;
+  }
   p {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -60,11 +78,20 @@ p {
   h1 {
     font-size: 41px;
   }
+  h2 {
+    font-size: 38px;
+  }
   h3 {
     font-size: 35px;
   }
   h4 {
     font-size: 23px;
+  }
+  h5 {
+    font-size: 20px;
+  }
+  h6 {
+    font-size: 18px;
   }
   p {
     font-size: 18px;
@@ -72,13 +99,22 @@ p {
 }
 @media only screen and (max-width: 550px) {
   h1 {
-    font-size: 30px;
+    font-size: 31px;
+  }
+  h2 {
+    font-size: 29px;
   }
   h3 {
     font-size: 27px;
   }
   h4 {
     font-size: 20px;
+  }
+  h5 {
+    font-size: 18px;
+  }
+  h6 {
+    font-size: 15px;
   }
   p {
     font-size: 15px;

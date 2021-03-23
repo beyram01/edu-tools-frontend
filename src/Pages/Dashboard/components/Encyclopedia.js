@@ -1,14 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jsonpAdapter from "axios-jsonp";
 import { Markup } from "interweave";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import Spinner from "../../_GlobalComponents/Spinner";
 import "../css/Encyclopedia.css";
 
 let searchUrl =
   "https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=";
 let contentUrl =
-  "https://en.wikipedia.org/w/api.php?format=xml&action=query&origin=*&prop=revisions&rvprop=content&titles=";
+  "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&redirects=true&titles=";
+
+// https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&titles=unicorn&redirects=true
 
 const Encyclopedia = () => {
   const [search, setSearch] = useState("");
@@ -16,117 +19,83 @@ const Encyclopedia = () => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const [didMount, setDidMount] = useState(false);
+  const [disable, setDisable] = useState(false);
 
   const params = useParams();
-  const history = useHistory();
 
   const formatContent = (content) => {
-    const newContent = /.*\./.exec(content).input;
-    console.log(newContent);
-
-    const removeDoubleBracketContent = newContent.replace(
-      /(?<={{)[^}]+(?=}})/g,
-      (selection) => {
-        return "";
-      }
-    );
-    const removeOpenBrackets = removeDoubleBracketContent.replace(/{/g, "");
-    const removeCloseBrackets = removeOpenBrackets.replace(/}/g, "");
-    const removeRef = removeCloseBrackets.replace(
-      /<ref(.*?)>((.*?)<\/ref>)?/g,
+    const newContent = content.replace(
+      /(<h2><span id="See_also">|<h2><span id="References">|<h2><span id="External_links">|<h2><span id="Further_reading">)(.|\s)*/g,
       ""
     );
-    const remoceTripleQuotes = removeRef.replace(/'''/g, "");
-    const pickSecondOption = remoceTripleQuotes.replace(
-      /\[\[(.*?)\|?(.*?)\]\]/g,
-      (selection) => {
-        const secondChoice = /(?<=\|).+?(?=\]\])/g.exec(selection);
-        const onlyChoice = /(?<=\[\[).+?(?=\]\])/g.exec(selection);
-        return !secondChoice
-          ? `<b>${onlyChoice}</b>`
-          : `<b>${secondChoice}</b>`;
-      }
-    );
 
-    /*
-
-    const checkH4 = pickSecondOption.replace(/====(.*?)====/g, (s) => {
-      const str = /(?<=====).+?(?=====)/g.exec(s);
-      return `<h4>${str}</h4>`;
-    });
-    const deleteH4 = checkH4.replace(/====/g, "");
-    const checkH3 = deleteH4.replace(/===(.*?)===/g, (s) => {
-      const str = /(?<====).+?(?====)/g.exec(s);
-      return `<h3>${str}</h3>`;
-    });
-    const deleteH3 = checkH3.replace(/===/g, "");
-    const checkH2 = deleteH3.replace(/==(.*?)==/g, (s) => {
-      const str = /(?<===).+?(?===)/g.exec(s);
-      return `<h2>${str}</h2>`;
-    });
-    const deleteH2 = checkH2.replace(/==/g, "");
-    const checkH1 = deleteH2.replace(/=(.*?)=/g, (s) => {
-      const str = /(?<==).+?(?==)/g.exec(s);
-      return `<h1>${str}</h1>`;
-    });
-    const deleteH1 = checkH1.replace(/=/g, "");
-    */
-
-    return content;
+    return newContent;
   };
 
   useEffect(() => {
+    setDidMount(true);
     const fetchContent = async () => {
+      setLoading(true);
       if (params.title) {
-        setLoading(true);
+        setDisable(true);
         setSearch(params.title);
         const res = await axios({
           url: contentUrl + params.title,
           adapter: jsonpAdapter,
         });
-        console.log(res);
         const pageId = Object.keys(res.data.query.pages)[0];
-        const pageContent = res.data.query.pages[pageId].revisions[0]["*"];
+        const pageContent = res.data.query.pages[pageId].extract;
         setContent(formatContent(pageContent));
-        setLoading(false);
       }
+      setLoading(false);
     };
     fetchContent();
-  }, []);
+    return () => setDidMount(false);
+  }, [params.title]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setTitles([]);
     setLoading(true);
     const res = await axios({
       url: searchUrl + search,
       adapter: jsonpAdapter,
     });
-    console.log(res);
-    setTitles(res.data[1]);
+    if (res.data[1].length > 0) {
+      setTitles(res.data[1]);
+    } else {
+      setError("Sorry, We couldn't found any information about this topic");
+    }
     setLoading(false);
   };
 
   return (
     <>
-      {loading ? (
-        "loading..."
-      ) : (
-        <div className="encyclopedia">
-          <h4>Encyclopedia</h4>
-          <form onSubmit={handleSubmit}>
-            <input
-              value={search}
-              type="text"
-              name="search"
-              id="search"
-              placeholder="What do you want to learn Today?"
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button type="submit">Search</button>
-          </form>
-          <div className="result">
-            {!params.title ? (
+      <div className="encyclopedia">
+        <h4>Encyclopedia</h4>
+        <form onSubmit={handleSubmit}>
+          <input
+            disabled={disable}
+            value={search}
+            type="text"
+            name="search"
+            id="search"
+            placeholder="What do you want to learn Today?"
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setError("");
+            }}
+          />
+          <button type="submit" disabled={disable}>
+            Search
+          </button>
+        </form>
+        <div className="result">
+          {loading ? (
+            <Spinner cx="20" cy="20" r="20" width="100%" height="100%" />
+          ) : !params.title ? (
+            !error ? (
               titles.map((title, index) => {
                 const formatedTitle = title.replace(/\s+/g, "_");
                 return (
@@ -140,13 +109,33 @@ const Encyclopedia = () => {
                 );
               })
             ) : (
-              <div id="formated-content">
-                <Markup content={content} />
-              </div>
-            )}
-          </div>
+              <div className="search-error">{error}</div>
+            )
+          ) : (
+            <div id="formated-content">
+              <Markup content={content} />
+            </div>
+          )}
+          {!params.title ? (
+            titles.map((title, index) => {
+              const formatedTitle = title.replace(/\s+/g, "_");
+              return (
+                <a
+                  className="wiki-link"
+                  href={`/dashboard/encyclopedia/${formatedTitle}`}
+                  key={index}
+                >
+                  {title}
+                </a>
+              );
+            })
+          ) : (
+            <div id="formated-content">
+              <Markup content={content} />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };

@@ -26,6 +26,11 @@ form > button {
 form > button:hover {
   background-color: var(--dark-pirple);
 }
+form > button:disabled {
+  opacity: 0.8;
+  background-color: var(--pirple);
+  cursor: default;
+}
 
 .result {
   width: 100%;
@@ -33,6 +38,54 @@ form > button:hover {
   background-color: var(--white);
   border: 1px solid var(--dark-grey);
   overflow-y: scroll;
+  padding: 0.2rem 1rem 0;
+}
+.wiki-link {
+  display: block;
+  padding: 0.5rem 0;
+  transition: 0.3s ease;
+  color: #0645ad;
+}
+.wiki-link:hover {
+  text-decoration: underline;
+  transform: translateX(15px);
+}
+.result p,
+.result h1,
+.result h2,
+.result h3,
+.result h4,
+.result h5,
+.result h6 {
+  padding: 0.5rem 0;
+}
+
+.result h1 {
+  font-size: 30px;
+}
+.result h2 {
+  font-size: 27px;
+}
+.result h3 {
+  font-size: 24px;
+}
+.result h4 {
+  font-size: 21px;
+}
+.result h5 {
+  font-size: 18px;
+}
+.result h6 {
+  font-size: 15px;
+}
+.result p {
+  font-size: 16px;
+}
+
+.search-error {
+  text-align: center;
+  padding-top: 1rem;
+  color: red;
 }
 
 @media (max-height: 570px) {
