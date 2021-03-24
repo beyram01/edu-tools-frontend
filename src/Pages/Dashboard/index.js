@@ -5,6 +5,7 @@ import MobileNav from "../Home/components/MobileNav";
 import ToolsNav from "./components/ToolsNav";
 import Translator from "./components/Translator";
 import Encyclopedia from "./components/Encyclopedia";
+import Events from "./components/Events";
 
 const Dashboard = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -38,6 +39,7 @@ const Dashboard = () => {
         <ToolsNav />
         {params.tool === "translator" && <Translator />}
         {params.tool === "encyclopedia" && <Encyclopedia />}
+        {params.tool === "events" && <Events width={width} />}
       </div>
     </div>
   );

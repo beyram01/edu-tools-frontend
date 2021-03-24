@@ -1,0 +1,26 @@
+.calendar {
+  background-color: var(--white);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.day {
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0.2rem 0.2rem 0 0.2rem;
+}
+.day:hover {
+  background-color: var(--light-grey);
+}
+.day > p {
+  font-size: 14px;
+}
+
+@media (max-width: 1050px) {
+  .calendar {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+@media (max-width: 850px) {
+}

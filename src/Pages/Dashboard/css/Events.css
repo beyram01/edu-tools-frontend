@@ -1,0 +1,58 @@
+.events {
+  width: 80%;
+  background-color: var(--dashboard-grey);
+  padding: 2rem 2rem;
+  overflow-y: scroll;
+}
+.events-header {
+  background-color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  margin-bottom: 1.5rem;
+}
+.calendar-nav {
+  display: flex;
+  align-items: center;
+}
+.calendar-nav svg {
+  width: 8px;
+  fill: black;
+}
+.prev svg {
+  transform: rotate(180deg);
+}
+.current-month,
+.current-year {
+  background-color: var(--light-grey);
+  padding: 0.4rem 0.9rem;
+  border-radius: 7px;
+  margin: 0 0.7rem;
+}
+.prev,
+.next {
+  padding: 0.3rem;
+  cursor: pointer;
+}
+
+@media (max-width: 850px) {
+  .events {
+    width: 100%;
+    padding: var(--nav-padding);
+  }
+}
+
+@media (max-width: 550px) {
+  .current-month,
+  .current-year {
+    font-size: 12px;
+    padding: 0.2rem 0.5rem;
+    margin: 0 0.5rem;
+    margin-top: 0.1rem;
+  }
+  .calendar-nav svg {
+    width: 6px;
+  }
+}

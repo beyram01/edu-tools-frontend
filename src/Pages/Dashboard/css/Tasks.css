@@ -1,0 +1,72 @@
+.tasks {
+  width: 80%;
+  background-color: var(--dashboard-grey);
+  padding: 2rem 2rem;
+}
+
+.tasks-container {
+  background-color: var(--white);
+  border: 1px solid black;
+  padding: 2rem 1rem;
+  overflow-y: scroll;
+}
+.tasks-container > div {
+  margin: 1rem 0;
+}
+.labels,
+.addTask,
+.one-task {
+  display: flex;
+}
+.labels > p {
+  font-weight: bold;
+}
+.addTask > div,
+.one-task > div {
+  border: 1px solid black;
+  padding: 0.7rem 0.5rem;
+  border-radius: 10px;
+}
+.time {
+  width: 15%;
+  margin-right: 5%;
+}
+.task {
+  width: 60%;
+  margin-right: 5%;
+}
+.status {
+  width: 15%;
+}
+.one-task > div:first-child {
+  text-align: center;
+}
+
+.one-task > div:last-child {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.one-task > div:last-child > svg {
+  fill: black;
+  width: 20px;
+}
+
+.addTask svg {
+  width: 22px;
+}
+.addTask > div:nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 850px) {
+  .tasks {
+    width: 100%;
+    padding: var(--nav-padding);
+  }
+  .tasks > h4 {
+    text-align: center;
+  }
+}

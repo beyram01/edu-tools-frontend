@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { avatar, translator, arrow, encyclopedia } from "../../../svgs";
+import { avatar, translator, arrow, encyclopedia, events } from "../../../svgs";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../css/ToolsNav.css";
@@ -56,9 +56,19 @@ const ToolsNav = () => {
           {encyclopedia}
           <p>Encyclopedia</p>
         </a>
-        <a href="#" className="tools-nav-link">
-          {translator}
-          <p>Translator</p>
+        <a
+          href="/dashboard/events"
+          className="tools-nav-link"
+          style={
+            params.tool === "events"
+              ? {
+                  backgroundColor: "var(--dark-pirple)",
+                }
+              : {}
+          }
+        >
+          {events}
+          <p>Events</p>
         </a>
         <a href="#" className="tools-nav-link">
           {translator}
