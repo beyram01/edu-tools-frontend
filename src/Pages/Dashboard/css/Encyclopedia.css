@@ -90,7 +90,7 @@ form > button:disabled {
 
 @media (max-height: 570px) {
   .result {
-    height: 70vh;
+    height: 65vh;
   }
 }
 

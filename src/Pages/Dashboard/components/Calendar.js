@@ -10,7 +10,7 @@ import {
 } from "date-fns";
 import "../css/Calendar.css";
 
-const Calendar = ({ month, year, width }) => {
+const Calendar = ({ month, year, width, unfinishidEvents, filterDate }) => {
   const [numberOfDays, setNumberOfDays] = useState([]);
   const [emptyDays, setEmptyDays] = useState([]);
 
@@ -65,6 +65,10 @@ const Calendar = ({ month, year, width }) => {
       })}
 
       {numberOfDays.map((day) => {
+        const { fDay, fMonth, fYear } = filterDate(day, month + 1, year);
+        const eventsCounter = unfinishidEvents.filter(
+          (event) => event.day === `${fYear}-${fMonth}-${fDay}`
+        ).length;
         return (
           <a
             href={`/dashboard/events/${day}-${month + 1}-${year}`}
@@ -76,8 +80,16 @@ const Calendar = ({ month, year, width }) => {
                 : {}
             }
           >
-            <p>{day}</p>
-            <p>{getFullDay(day, firstDayInCurrentMonth)}</p>
+            <div>
+              <p>{day}</p>
+              <p>{getFullDay(day, firstDayInCurrentMonth)}</p>
+            </div>
+            {eventsCounter > 0 && (
+              <p className="events-counter">
+                <span className="point"></span>
+                {eventsCounter} tasks
+              </p>
+            )}
           </a>
         );
       })}
@@ -86,6 +98,12 @@ const Calendar = ({ month, year, width }) => {
 };
 
 export default Calendar;
+
+/**
+ * return the full name of the day (Monday, Tuesday...)
+ *
+ * @return {String}
+ */
 
 const getFullDay = (day, firstDayInCurrentMonth) => {
   const currentDay = day + firstDayInCurrentMonth - 1;

@@ -5,16 +5,32 @@
 }
 .day {
   border: 1px solid black;
-  display: flex;
-  justify-content: space-between;
   height: 80px;
   padding: 0.2rem 0.2rem 0 0.2rem;
 }
 .day:hover {
   background-color: var(--light-grey);
 }
-.day > p {
+.day > div {
+  display: flex;
+  justify-content: space-between;
+}
+.day p {
   font-size: 14px;
+}
+.events-counter {
+  margin-top: 1rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.point {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--dark-pirple);
+  margin-right: 0.5rem;
 }
 
 @media (max-width: 1050px) {

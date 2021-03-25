@@ -28,7 +28,7 @@ const Dashboard = () => {
         style={{
           display: "flex",
           height:
-            height > 570
+            height > 560
               ? width >= 850
                 ? "calc(100vh - 66.59px)"
                 : "calc(100vh - 62px)"

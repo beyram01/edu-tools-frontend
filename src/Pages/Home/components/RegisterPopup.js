@@ -138,10 +138,10 @@ const RegisterPopup = ({ setRegisterModel }) => {
                 height="100%"
                 color="#ffffff"
                 spinnerWidth="25px"
-                spinnerheight="25px"
+                spinnerHeight="25px"
                 strokeWidth="2px"
                 transform="translate(2px, 2px)"
-                strokeDasharry="80"
+                strokeDasharray="80"
                 strokeDashoffset="80"
               />
             ) : (
