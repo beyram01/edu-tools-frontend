@@ -55,7 +55,6 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
     try {
       if (!description) throw new Error("description is required");
       const { fDay, fMonth, fYear } = filterTitle();
-      console.log(fDay, fMonth, fYear);
       const User = await api("/users/me", {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -65,17 +64,17 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
         description,
         day: new Date(fYear, fMonth - 1, fDay),
         time: `${hour}:${minute}`,
-        owner: User.data,
+        users_permissions_user: User.data.id,
       };
       const res = await api.post("/events", data, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      console.log(res);
+      setSpecifiecEvents([...specifiecEvents, res.data]);
+      setDescription("");
       setLoading(false);
     } catch (error) {
-      console.log(error.message);
       setError(error.message);
       setLoading(false);
     }
