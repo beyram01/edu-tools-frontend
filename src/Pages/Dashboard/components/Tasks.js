@@ -11,6 +11,12 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
   const [hour, setHour] = useState("00");
   const [description, setDescription] = useState("");
   const [specifiecEvents, setSpecifiecEvents] = useState([]);
+  const [updateDiv, setUpdateDiv] = useState("");
+  const [updatedData, setUpdatedData] = useState({
+    hour: "",
+    minute: "",
+    description: "",
+  });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -46,6 +52,65 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
       setDescription(value);
     } else {
       setHour(value);
+    }
+  };
+
+  const handleUpdate = (e) => {
+    setUpdatedData({ ...updatedData, [e.target.name]: e.target.value });
+  };
+
+  const openUpdateDiv = (event) => {
+    const [hour, minute] = event.time.split(":");
+    setUpdateDiv(event.id);
+    setUpdatedData({
+      ...updatedData,
+      description: event.description,
+      hour: hour,
+      minute: minute,
+    });
+  };
+
+  const updateTask = async (e, taskId) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const data = {
+        description: updatedData.description,
+        time: `${updatedData.hour}:${updatedData.minute}`,
+      };
+      const res = await api.put(`/events/${taskId}`, data, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      console.log(res);
+      let filterEvents = specifiecEvents.filter((event) => event.id !== taskId);
+      filterEvents.push(res.data);
+      setSpecifiecEvents(filterEvents);
+      setUpdateDiv("");
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+
+  const deleteTask = async (taskId) => {
+    try {
+      setLoading(true);
+      const res = await api.delete(`/events/${taskId}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const filteredEvents = specifiecEvents.filter(
+        (ev) => ev.id !== res.data.id
+      );
+      setSpecifiecEvents(filteredEvents);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
     }
   };
 
@@ -93,17 +158,79 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
           const time = /\d\d:\d\d/g.exec(event.time);
           return (
             <div className="one-task" key={event.id}>
-              <div className="time">
-                <p>{time}</p>
-              </div>
-              <div className="task">
-                <p>{event.description}</p>
-              </div>
-              <div className="status">
-                <input type="checkbox" name="finish" id="finish" />
-                {edit}
-                {remove}
-              </div>
+              {updateDiv === event.id ? (
+                <>
+                  <div className="new-time update-time">
+                    <input
+                      type="number"
+                      name="hour"
+                      value={updatedData.hour}
+                      onChange={handleUpdate}
+                      min="00"
+                      max="23"
+                    />
+                    <div>:</div>
+                    <input
+                      type="number"
+                      name="minute"
+                      value={updatedData.minute}
+                      onChange={handleUpdate}
+                      min="00"
+                      max="59"
+                    />
+                  </div>
+                  <div className="new-task">
+                    {/*error*/}
+                    <form onSubmit={(e) => updateTask(e, event.id)}>
+                      <input
+                        type="text"
+                        name="description"
+                        placeholder="What are you going to do Today?"
+                        value={updatedData.description}
+                        onChange={handleUpdate}
+                      />
+                      <div>
+                        <button onClick={() => setUpdateDiv("")}>Cancel</button>
+                        <button type="submit" id="submit">
+                          {loading ? (
+                            <Spinner
+                              cx="10"
+                              cy="10"
+                              r="10"
+                              width="100%"
+                              height="100%"
+                              color="#ffffff"
+                              spinnerWidth="25px"
+                              spinnerHeight="25px"
+                              strokeWidth="2px"
+                              transform="translate(2px, 2px)"
+                              strokeDasharray="80"
+                              strokeDashoffset="80"
+                            />
+                          ) : (
+                            "Update Task"
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="new-status"></div>
+                </>
+              ) : (
+                <>
+                  <div className="time">
+                    <p>{time}</p>
+                  </div>
+                  <div className="task">
+                    <p>{event.description}</p>
+                  </div>
+                  <div className="status">
+                    <input type="checkbox" name="finish" id="finish" />
+                    <div onClick={() => openUpdateDiv(event)}>{edit}</div>
+                    <div onClick={() => deleteTask(event.id)}>{remove}</div>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}

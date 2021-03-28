@@ -2,6 +2,7 @@
   width: 80%;
   background-color: var(--dashboard-grey);
   padding: 2rem 2rem;
+  overflow-y: scroll;
 }
 .tasks > h4 {
   margin-bottom: 1rem;
@@ -67,12 +68,12 @@
   justify-content: space-evenly;
   align-items: center;
 }
-.one-task > div:last-child > svg {
+.one-task > div:last-child > div > svg {
   fill: black;
   width: 16px;
   cursor: pointer;
 }
-.one-task > div:last-child > svg:last-child {
+.one-task > div:last-child > div:last-child > svg {
   fill: #de5246;
 }
 
@@ -243,6 +244,12 @@
   }
   .new-status {
     display: none;
+  }
+  .update-time {
+    display: flex !important;
+    justify-content: flex-start !important;
+    position: static !important;
+    padding: 0.7rem 0 0 0.7rem !important;
   }
 }
 
