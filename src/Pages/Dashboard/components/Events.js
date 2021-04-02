@@ -37,8 +37,6 @@ const Events = ({ width }) => {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(res);
-          console.log(new Date(res.data[0].day));
           if (res) {
             setEvents(res.data);
           }

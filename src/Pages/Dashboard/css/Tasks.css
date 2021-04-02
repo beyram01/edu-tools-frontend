@@ -74,7 +74,7 @@
   cursor: pointer;
 }
 .one-task > div:last-child > div:last-child > svg {
-  fill: #de5246;
+  fill: var(--red);
 }
 
 .addTask svg {
