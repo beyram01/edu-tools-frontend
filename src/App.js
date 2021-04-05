@@ -124,7 +124,7 @@ const GoogleAuth = () => {
         setTimeout(() => history.push("/dashboard"), 3000);
       } catch (error) {
         setError(
-          "Sorry your request to login failed. Wait Your page will Redirect automatically..."
+          "Sorry your request to login failed. Wait Your page will Redirect automatically... 😦 "
         );
         setTimeout(() => history.push("/"), 3000);
       }
@@ -134,11 +134,11 @@ const GoogleAuth = () => {
 
   return (
     <>
-      <h1>
+      <h2 style={{ textAlign: "center" }}>
         {error
           ? error
-          : "You logged in successfully, Wait Your page will Redirect automatically..."}
-      </h1>
+          : "You logged in successfully, Wait Your page will Redirect automatically... 🙂 "}
+      </h2>
     </>
   );
 };

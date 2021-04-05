@@ -87,7 +87,7 @@ const Calendar = ({ month, year, width, unfinishidEvents, filterDate }) => {
             {eventsCounter > 0 && (
               <p className="events-counter">
                 <span className="point"></span>
-                {eventsCounter} tasks
+                {eventsCounter} {eventsCounter > 1 ? "events" : "event"}
               </p>
             )}
           </a>

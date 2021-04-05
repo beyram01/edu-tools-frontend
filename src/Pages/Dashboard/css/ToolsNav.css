@@ -50,6 +50,19 @@
   background-color: var(--dark-pirple);
 }
 
+.tools-nav-link #translator {
+  width: 50px;
+}
+.tools-nav-link #encyclopedia {
+  width: 38px;
+}
+.tools-nav-link #events {
+  width: 35px;
+}
+.tools-nav-link #project_manager {
+  width: 35px;
+}
+
 @media (max-width: 1050px) {
   .tools-nav {
     width: 25%;

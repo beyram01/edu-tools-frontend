@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { arrow } from "../../../svgs";
-import Calendar, { Months } from "./Calendar";
+import Calendar, { Days, Months } from "./Calendar";
 import Tasks from "./Tasks";
-import { getMonth, getYear } from "date-fns";
+import { getMonth, getYear, compareAsc } from "date-fns";
 import { useParams } from "react-router-dom";
 import api from "../../../axios.config";
 import { useSelector } from "react-redux";
@@ -24,6 +24,7 @@ const Events = ({ width }) => {
   // filter events to keep the unfinished ones.
   useEffect(() => {
     const filtredEvents = events.filter((event) => !event.done);
+    console.log(filtredEvents);
     setUnfinishedEvents(filtredEvents);
   }, [events]);
 
@@ -38,7 +39,39 @@ const Events = ({ width }) => {
             },
           });
           if (res) {
-            setEvents(res.data);
+            const toDeleteEvents = res.data.filter((event) => {
+              const [year, month, day] = event.day.split("-");
+              const [hour, minute] = event.time.split(":");
+              const eventDay = new Date(year, month - 1, day, hour, minute);
+              /*
+              compareAsc function result:
+              1: first date is after the second
+              0: dates are equal
+              -1: if the first date is before the second
+              */
+              const compareResult = compareAsc(eventDay, new Date());
+              return compareResult === -1;
+            });
+
+            //delete old events
+            toDeleteEvents.map(async (event) => {
+              await api.delete(`/events/${event.id}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+            });
+
+            // filter the response from the deleted events
+            let freshEvents = res.data;
+            if (toDeleteEvents.length > 1) {
+              toDeleteEvents.forEach((event) => {
+                freshEvents = res.data.filter((ev) => event.id !== ev.id);
+              });
+              setEvents(freshEvents);
+            } else {
+              setEvents(freshEvents);
+            }
           }
         }
         setLoading(false);

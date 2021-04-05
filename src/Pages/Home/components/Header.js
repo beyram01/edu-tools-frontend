@@ -2,9 +2,9 @@ import React from "react";
 import { education_svg } from "../../../svgs";
 import "../css/Header.css";
 
-const Header = ({ setLoginModel }) => {
-  const openLoginModel = () => {
-    setLoginModel(true);
+const Header = ({ setRegisterModel }) => {
+  const openRegisterModel = () => {
+    setRegisterModel(true);
   };
 
   return (
@@ -20,7 +20,7 @@ const Header = ({ setLoginModel }) => {
         </p>
         <div className="call-to-action">
           <button className="btn btn-stroke">Try Our Tools</button>
-          <button className="btn btn-fill" onClick={openLoginModel}>
+          <button className="btn btn-fill" onClick={openRegisterModel}>
             Get Started
           </button>
         </div>

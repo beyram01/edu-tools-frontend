@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../functions";
 import { fetch_user } from "../../../Redux/user/userActions";
 import { useHistory } from "react-router-dom";
+import useOnClickOutside from "use-onclickoutside";
 import { close } from "../../../svgs";
 import Spinner from "../../_GlobalComponents/Spinner";
 import "../css/LoginPopup.css";
@@ -25,6 +26,13 @@ const RegisterPopup = ({ setRegisterModel }) => {
   const [error, setError] = useState("");
 
   const history = useHistory();
+
+  const closeRegisterModel = () => {
+    setRegisterModel(false);
+  };
+
+  const modalRef = useRef(null);
+  useOnClickOutside(modalRef, closeRegisterModel);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,10 +72,6 @@ const RegisterPopup = ({ setRegisterModel }) => {
     }
   };
 
-  const closeRegisterModel = () => {
-    setRegisterModel(false);
-  };
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
@@ -75,7 +79,7 @@ const RegisterPopup = ({ setRegisterModel }) => {
 
   return (
     <div className="login-background">
-      <div className="login-container">
+      <div ref={modalRef} className="login-container">
         <div onClick={closeRegisterModel}>{close}</div>
         <h3>Register</h3>
         {error && (

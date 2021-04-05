@@ -44,13 +44,16 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
     setOpenAddTask(false);
   };
   const handleChange = (e) => {
+    setError("");
     const name = e.target.name;
     const value = e.target.value;
     if (name === "minute") {
-      setMinute(value);
+      if (value > 59) return setMinute(59);
+      return setMinute(value);
     } else if (name === "task") {
       setDescription(value);
     } else {
+      if (value > 23) return setHour(23);
       setHour(value);
     }
   };
@@ -138,6 +141,8 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
       });
       setSpecifiecEvents([...specifiecEvents, res.data]);
       setDescription("");
+      setHour("00");
+      setMinute("00");
       setLoading(false);
     } catch (error) {
       setError(error.message);
@@ -155,7 +160,6 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
           <p className="label-name status">Status</p>
         </div>
         {specifiecEvents.map((event) => {
-          const time = /\d\d:\d\d/g.exec(event.time);
           return (
             <div className="one-task" key={event.id}>
               {updateDiv === event.id ? (
@@ -180,7 +184,6 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
                     />
                   </div>
                   <div className="new-task">
-                    {/*error*/}
                     <form onSubmit={(e) => updateTask(e, event.id)}>
                       <input
                         type="text"
@@ -219,13 +222,12 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
               ) : (
                 <>
                   <div className="time">
-                    <p>{time}</p>
+                    <p>{event.time}</p>
                   </div>
                   <div className="task">
                     <p>{event.description}</p>
                   </div>
                   <div className="status">
-                    <input type="checkbox" name="finish" id="finish" />
                     <div onClick={() => openUpdateDiv(event)}>{edit}</div>
                     <div onClick={() => deleteTask(event.id)}>{remove}</div>
                   </div>
@@ -268,7 +270,6 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
                 />
               </div>
               <div className="new-task">
-                {/*error*/}
                 <form onSubmit={handleSubmit}>
                   <input
                     type="text"

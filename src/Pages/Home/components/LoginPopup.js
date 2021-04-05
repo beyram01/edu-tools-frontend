@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { close } from "../../../svgs";
 import { loginUser } from "../../functions";
 import { fetch_user } from "../../../Redux/user/userActions";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import useOnClickOutside from "use-onclickoutside";
 import Spinner from "../../_GlobalComponents/Spinner";
 import "../css/LoginPopup.css";
 
@@ -23,10 +24,12 @@ const LoginPopup = ({ setLoginModel }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const modalRef = useRef(null);
   const closeLoginModel = () => {
     setLoginModel(false);
     setError("");
   };
+  useOnClickOutside(modalRef, closeLoginModel);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -63,7 +66,7 @@ const LoginPopup = ({ setLoginModel }) => {
 
   return (
     <div className="login-background">
-      <div className="login-container">
+      <div ref={modalRef} className="login-container">
         <div onClick={closeLoginModel}>{close}</div>
         <h3>Login</h3>
         {error && (

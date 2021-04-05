@@ -33,7 +33,7 @@ const HomePage = () => {
           setRegisterModel={setRegisterModel}
         />
       )}
-      <Header setLoginModel={setLoginModel} />
+      <Header setRegisterModel={setRegisterModel} />
       <Services />
       <Contact />
       <Footer />

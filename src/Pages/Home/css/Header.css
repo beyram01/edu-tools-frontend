@@ -36,7 +36,8 @@
   }
   .header > svg {
     position: absolute;
-    width: 600px;
+    width: 550px;
+    height: 450px;
     right: 0px;
   }
   .hero {
@@ -56,8 +57,9 @@
   .header > svg {
     position: absolute;
     width: 450px;
+    height: 450px;
     right: 0;
-    top: 28%;
+    top: 24%;
   }
   .hero-description {
     margin-bottom: 2.5rem;
