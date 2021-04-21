@@ -1,0 +1,44 @@
+.forget-password-page > form {
+  padding: var(--nav-padding);
+  padding-top: 4rem;
+}
+
+.forget-password-page > form > h5 {
+  margin-bottom: 1rem;
+}
+
+.forget-password-page > form > div {
+  display: flex;
+}
+
+.forget-password-page > form > div > input {
+  flex: 1;
+  padding: 0.5rem 0;
+  padding-left: 0.5rem;
+}
+
+.forget-password-page > form > div > button {
+  border: none;
+  background-color: var(--pirple);
+  color: var(--white);
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+
+.forget-password-page > form > .message-container {
+  text-align: center;
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.forget-password-page > form > .message-container > p {
+  font-size: 13px;
+}
+
+@media (max-width: 550px) {
+  .forget-password-page > form > div > button,
+  .forget-password-page > form > div > input {
+    font-size: 12px;
+  }
+}

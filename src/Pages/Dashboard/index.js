@@ -33,7 +33,7 @@ const Dashboard = () => {
               ? width >= 850
                 ? "calc(100vh - 66.59px)"
                 : "calc(100vh - 62px)"
-              : "auto",
+              : "600px",
           position: "relative",
         }}
       >

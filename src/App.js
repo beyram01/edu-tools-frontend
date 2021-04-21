@@ -3,7 +3,6 @@ import api from "./axios.config";
 import { useDispatch } from "react-redux";
 import { fetch_user, delete_token } from "./Redux/user/userActions";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -12,12 +11,17 @@ import {
 } from "react-router-dom";
 import HomePage from "./Pages/Home/index.js";
 import Dashboard from "./Pages/Dashboard/index.js";
+import ForgetPasswordPage from "./Pages/ForgetPassword/index.js";
+import ResetPasswordPage from "./Pages/ResetPassword/index.js";
 import Spinner from "./Pages/_GlobalComponents/Spinner";
 import "./css/App.css";
 
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -49,30 +53,43 @@ function App() {
     checkAuth();
   }, []);
 
+  useEffect(() => {
+    if (location.hash) {
+      const contactContainer = document.querySelector(location.hash);
+      if (contactContainer) {
+        contactContainer.scrollIntoView();
+      }
+    }
+  });
+
   return !loading ? (
     <>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
-          <Route path="/connect/google/redirect">
-            <GoogleAuth />
-          </Route>
-          <PrivateRoute exact path="/dashboard">
-            <Redirect to="/dashboard/translator" />
-          </PrivateRoute>
-          <PrivateRoute exact path="/dashboard/:tool">
-            <Dashboard />
-          </PrivateRoute>
-          <PrivateRoute path="/dashboard/:tool/:title">
-            <Dashboard />
-          </PrivateRoute>
-          <Route path="*">
-            <h1>404</h1>
-          </Route>
-        </Switch>
-      </Router>
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route exact path="/forget-password">
+          <ForgetPasswordPage />
+        </Route>
+        <Route exact path="/reset-password">
+          <ResetPasswordPage />
+        </Route>
+        <Route path="/connect/google/redirect">
+          <GoogleAuth />
+        </Route>
+        <PrivateRoute exact path="/dashboard">
+          <Redirect to="/dashboard/translator" />
+        </PrivateRoute>
+        <PrivateRoute exact path="/dashboard/:tool">
+          <Dashboard />
+        </PrivateRoute>
+        <PrivateRoute path="/dashboard/:tool/:title">
+          <Dashboard />
+        </PrivateRoute>
+        <Route path="*">
+          <h1>404</h1>
+        </Route>
+      </Switch>
     </>
   ) : (
     <Spinner cx="20" cy="20" r="20" width="100%" height="100vh" />

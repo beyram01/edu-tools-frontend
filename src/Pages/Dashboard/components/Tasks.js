@@ -26,6 +26,7 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
   const filterTitle = () => {
     const [day, month, year] = title.split("-");
     const { fDay, fMonth, fYear } = filterDate(day, month, year);
+    console.log(fDay, fMonth, fYear);
     return { fDay, fMonth, fYear };
   };
 
@@ -130,7 +131,7 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
       });
       const data = {
         description,
-        day: new Date(fYear, fMonth - 1, fDay),
+        day: new Date(fYear, fMonth - 1, fDay, 12, 0),
         time: `${hour}:${minute}`,
         users_permissions_user: User.data.id,
       };
@@ -156,7 +157,7 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
       <div className="tasks-container">
         <div className="labels">
           <p className="label-name time">Time</p>
-          <p className="label-name task">Task</p>
+          <p className="label-name task">Event</p>
           <p className="label-name status">Status</p>
         </div>
         {specifiecEvents.map((event) => {
