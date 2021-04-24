@@ -1,0 +1,90 @@
+.project-manager > h5 {
+  margin-bottom: 0.5rem;
+}
+.droppable-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90%;
+}
+.task-container {
+  border: 1px solid black;
+  padding: 1rem 0.5rem;
+  width: 30%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: var(--white);
+  border-radius: 5px;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.task-container::-webkit-scrollbar {
+  display: none;
+}
+
+.task-container > h6 {
+  position: relative;
+  text-align: center;
+  margin-bottom: 0.7rem;
+  font-size: 18px;
+}
+
+.task-container > h6::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  width: 35px;
+  height: 5px;
+  background-color: red;
+  border-radius: 25%;
+}
+
+.project-manager-tasks {
+  padding: 1rem 0;
+}
+
+.new-task {
+  width: 100%;
+  border: 1px solid black;
+  padding: 0.3rem 0;
+}
+
+.new-task > form {
+  padding: 0.5rem;
+}
+.new-task > form > input {
+  margin-top: 0;
+  font-size: 13px !important;
+}
+.new-task > form > div {
+  justify-content: flex-start;
+}
+.open-new-task {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+.new-task svg {
+  width: 15px;
+  margin-right: 10px;
+}
+.new-task-btns > button {
+  font-weight: 300;
+  padding: 0.3rem 0.7rem !important;
+}
+.new-task-btns > button:first-child {
+  background-color: var(--pirple);
+  border: 1px solid var(--pirple);
+  margin-right: 0.5rem;
+  border-radius: 0;
+  color: var(--white);
+}
+.new-task-btns > button:last-child {
+  border-radius: 0;
+}
