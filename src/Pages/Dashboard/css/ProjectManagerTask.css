@@ -2,3 +2,70 @@
   margin-bottom: 1rem;
   border: 1px solid black;
 }
+.project-manager-task > div:first-child {
+  padding: 0.7rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.project-manager-task form {
+  padding: 0 1rem;
+}
+.project-manager-task #task {
+  font-size: 13px;
+  padding: 0.3rem 0.3rem;
+}
+.project-manager-task > div:first-child > div {
+  padding: 0 0.2rem;
+  cursor: pointer;
+}
+.project-manager-task > div:first-child > div > svg {
+  display: block;
+  width: 13px;
+  fill: black;
+}
+.project-manager-task > div:first-child > p {
+  font-size: 14px;
+}
+.project-manager-task hr {
+  margin: 0 1rem;
+}
+.project-manager-task > .controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.controls svg {
+  fill: var(--red);
+  width: 15px;
+  cursor: pointer;
+}
+
+.controls-btns {
+  display: flex;
+}
+
+.controls-btns > div > button {
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.controls-btns > div > button:hover {
+  background-color: var(--dark-grey);
+}
+
+.controls-btns > div:last-child > button {
+  margin-left: 0.5rem;
+}
+.controls-btns > div > button > .status {
+  display: inline-block;
+  width: 12px;
+  height: 2px;
+  background-color: red;
+  margin-right: 0.3rem;
+  border-radius: 25%;
+}

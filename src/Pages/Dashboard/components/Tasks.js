@@ -133,7 +133,7 @@ const Tasks = ({ title, width, unfinishidEvents, filterDate }) => {
         description,
         day: new Date(fYear, fMonth - 1, fDay, 12, 0),
         time: `${hour}:${minute}`,
-        users_permissions_user: User.data.id,
+        owner: User.data.id,
       };
       const res = await api.post("/events", data, {
         headers: {

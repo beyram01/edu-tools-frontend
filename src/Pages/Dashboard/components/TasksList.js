@@ -4,8 +4,6 @@ import { Draggable } from "react-beautiful-dnd";
 import { plus } from "../../../svgs";
 import "../css/TasksList.css";
 
-const grid = 8;
-
 const getItemStyle = (isDragging) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
@@ -16,6 +14,15 @@ const getItemStyle = (isDragging) => ({
 
 const TasksList = ({ title, state, innerRef, id2List, style }) => {
   const [openNewTask, setOpenNewTask] = useState(false);
+
+  const redColor = "#FF4A4A";
+  const greenColor = "#79FF4A";
+  const yellowColor = "#FFD74A";
+
+  const bigStatusStyle = {
+    backgroundColor:
+      title === "todo" ? redColor : title === "done" ? greenColor : yellowColor,
+  };
 
   const handleOpenNewTask = () => {
     setOpenNewTask(true);
@@ -30,7 +37,10 @@ const TasksList = ({ title, state, innerRef, id2List, style }) => {
   };
   return (
     <div className="task-container">
-      <h6>{title}</h6>
+      <h6>
+        <span className="big-status" style={bigStatusStyle}></span>
+        {title}
+      </h6>
       <div className="project-manager-tasks" ref={innerRef} style={style}>
         {state[id2List[title]] &&
           state[id2List[title]].map((t, index) => (
@@ -43,6 +53,7 @@ const TasksList = ({ title, state, innerRef, id2List, style }) => {
                 >
                   <ProjectManagerTask
                     desc={t.desc}
+                    title={title}
                     style={getItemStyle(snapshot.isDragging)}
                   />
                 </div>
@@ -50,7 +61,7 @@ const TasksList = ({ title, state, innerRef, id2List, style }) => {
             </Draggable>
           ))}
         {title === "todo" && (
-          <div className="new-task">
+          <div className="project-manager-new-task">
             {openNewTask ? (
               <form onSubmit={handleSubmit}>
                 <input

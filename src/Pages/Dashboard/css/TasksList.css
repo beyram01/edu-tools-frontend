@@ -32,35 +32,34 @@
   font-size: 18px;
 }
 
-.task-container > h6::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 15%;
-  width: 35px;
-  height: 5px;
+.task-container > h6 > .big-status {
+  display: inline-block;
+  width: 30px;
+  height: 4px;
   background-color: red;
-  border-radius: 25%;
+  border-radius: 50px;
+  margin-right: 0.5rem;
+  transform: translateY(-50%);
 }
 
 .project-manager-tasks {
   padding: 1rem 0;
 }
 
-.new-task {
+.project-manager-new-task {
   width: 100%;
   border: 1px solid black;
   padding: 0.3rem 0;
 }
 
-.new-task > form {
+.project-manager-new-task > form {
   padding: 0.5rem;
 }
-.new-task > form > input {
+.project-manager-new-task > form > input {
   margin-top: 0;
   font-size: 13px !important;
 }
-.new-task > form > div {
+.project-manager-new-task > form > div {
   justify-content: flex-start;
 }
 .open-new-task {
@@ -68,14 +67,16 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  font-size: 14px;
   cursor: pointer;
 }
-.new-task svg {
+.project-manager-new-task svg {
   width: 15px;
   margin-right: 10px;
 }
 .new-task-btns > button {
   font-weight: 300;
+  font-size: 12px;
   padding: 0.3rem 0.7rem !important;
 }
 .new-task-btns > button:first-child {
@@ -87,4 +88,26 @@
 }
 .new-task-btns > button:last-child {
   border-radius: 0;
+  border: 1px solid black;
+  background-color: var(--white);
+}
+
+@media (max-width: 1050px) {
+  .task-container {
+    width: 32%;
+  }
+}
+
+@media (max-width: 850px) {
+  .project-manager > h5 {
+    text-align: center;
+  }
+  .droppable-container {
+    display: block;
+    height: fit-content;
+  }
+  .task-container {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 }

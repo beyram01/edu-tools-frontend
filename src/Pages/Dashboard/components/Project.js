@@ -60,7 +60,8 @@ const data = [
       },
       {
         id: 3,
-        desc: "Drag Me from todo 3",
+        desc:
+          "Drag Me from todo 3 Drag Me from todo 3 Drag Me from todo 3 Drag Me from todo 3 Drag Me from todo 3 Drag Me from todo 3 Drag Me from todo 3",
         title: "todo",
       },
     ],
