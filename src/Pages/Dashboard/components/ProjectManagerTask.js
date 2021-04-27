@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import Spinner from "../../_GlobalComponents/Spinner";
+import { useTaskState } from "./StateContext";
 import { remove, edit } from "../../../svgs";
+import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import api from "../../../axios.config";
 import "../css/ProjectManagerTask.css";
 
-const ProjectManagerTask = ({ desc, innerRef, style, title }) => {
+const ProjectManagerTask = ({ t, innerRef, style, title, id2List }) => {
   const [open, setOpen] = useState(false);
-  const [task, setTask] = useState(desc);
+  const [task, setTask] = useState(t.description);
+  const [loading, setLoading] = useState(false);
+
+  const user = useSelector((state) => state.user);
+
+  const [state, updateState] = useTaskState();
 
   const redColor = "#FF4A4A";
   const greenColor = "#79FF4A";
@@ -30,18 +39,60 @@ const ProjectManagerTask = ({ desc, innerRef, style, title }) => {
     };
   };
 
-  const switchStatus = (e) => {
-    {
-      /* Change The status of the current Task */
+  const switchStatus = async (e) => {
+    const currentStatus = e.target.innerText.toString();
+    const itemsToRemoveFrom = id2List[t.status];
+    const itemsToAddOn = id2List[currentStatus];
+    const filtred = state[itemsToRemoveFrom].filter((task) => task.id !== t.id);
+    t.status = currentStatus;
+    try {
+      setLoading(true);
+      const res = await api.put(
+        `/tasks/${t.id}`,
+        {
+          status: e.target.innerText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      setLoading(false);
+    } catch (error) {
+      return setLoading(false);
     }
+    updateState({
+      [itemsToAddOn]: [...state[itemsToAddOn], t],
+      [itemsToRemoveFrom]: filtred,
+    });
   };
 
   const handleChange = (e) => {
     setTask(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true);
+      await api.put(
+        `/tasks/${t.id}`,
+        {
+          description: task,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      t.description = task;
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
     setOpen(false);
   };
 
@@ -49,44 +100,65 @@ const ProjectManagerTask = ({ desc, innerRef, style, title }) => {
     setOpen(true);
   };
 
+  const deleteTask = async () => {
+    const itemsToRemoveFrom = state[id2List[t.status]];
+    try {
+      setLoading(true);
+      await api.delete(`/tasks/${t.id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+    } catch (error) {
+      return setLoading(false);
+    }
+    const filtred = itemsToRemoveFrom.filter((task) => task.id !== t.id);
+    setLoading(false);
+    updateState({ [id2List[t.status]]: filtred });
+  };
+
   return (
-    <div className="project-manager-task" ref={innerRef} style={style}>
-      {open ? (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="task"
-            id="task"
-            value={task}
-            onChange={handleChange}
-          />
-        </form>
+    <>
+      {loading ? (
+        <Spinner cx="20" cy="20" r="20" width="100%" height="100%" />
       ) : (
-        <div>
-          <p>{task}</p>
-          <div onClick={openUpdate}>{edit}</div>
+        <div className="project-manager-task" ref={innerRef} style={style}>
+          {open ? (
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="task"
+                id="task"
+                value={task}
+                onChange={handleChange}
+              />
+            </form>
+          ) : (
+            <div>
+              <p>{task}</p>
+              <div onClick={openUpdate}>{edit}</div>
+            </div>
+          )}
+          <hr />
+          <div className="controls">
+            <div className="controls-btns">
+              <div>
+                <button onClick={switchStatus}>
+                  {" "}
+                  <span className="status" style={statusStyle(0)}></span>
+                  {BtnsContent[0]}
+                </button>
+              </div>
+              <div>
+                <button onClick={switchStatus}>
+                  <span className="status" style={statusStyle(1)}></span>
+                  {BtnsContent[1]}
+                </button>
+              </div>
+            </div>
+            <div onClick={deleteTask}>{remove}</div>
+          </div>
         </div>
       )}
-      <hr />
-      <div className="controls">
-        <div className="controls-btns">
-          <div>
-            <button onClick={switchStatus}>
-              {" "}
-              <span className="status" style={statusStyle(0)}></span>
-              {BtnsContent[0]}
-            </button>
-          </div>
-          <div>
-            <button onClick={switchStatus}>
-              <span className="status" style={statusStyle(1)}></span>
-              {BtnsContent[1]}
-            </button>
-          </div>
-        </div>
-        {remove}
-      </div>
-    </div>
+    </>
   );
 };
 

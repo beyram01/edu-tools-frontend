@@ -28,9 +28,11 @@
   transition: 0.3s ease;
 }
 .project:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
-
+.project > a {
+  flex: 1;
+}
 .project > div,
 .add-project > div {
   display: flex;
@@ -41,6 +43,12 @@
 .project > div > svg {
   width: 20px;
   fill: var(--red);
+}
+
+.projects-manager-body #delete {
+  width: 10%;
+  height: 100%;
+  z-index: 10;
 }
 
 .add-project {

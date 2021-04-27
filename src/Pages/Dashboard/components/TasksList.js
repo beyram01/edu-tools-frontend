@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import ProjectManagerTask from "./ProjectManagerTask";
 import { Draggable } from "react-beautiful-dnd";
+import { useTaskState } from "./StateContext";
+import { useSelector } from "react-redux";
+import api from "../../../axios.config";
 import { plus } from "../../../svgs";
 import "../css/TasksList.css";
 
@@ -9,11 +12,17 @@ const getItemStyle = (isDragging) => ({
   userSelect: "none",
 
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "white",
+  background: "white",
 });
 
-const TasksList = ({ title, state, innerRef, id2List, style }) => {
+const TasksList = ({ title, innerRef, id2List, style, currentProject }) => {
   const [openNewTask, setOpenNewTask] = useState(false);
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [state, updateState] = useTaskState();
+
+  const user = useSelector((state) => state.user);
 
   const redColor = "#FF4A4A";
   const greenColor = "#79FF4A";
@@ -31,9 +40,35 @@ const TasksList = ({ title, state, innerRef, id2List, style }) => {
     setOpenNewTask(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Save task to db
+    try {
+      setLoading(true);
+      const res = await api.post(
+        "/tasks",
+        {
+          description: description,
+          status: "todo",
+          project: currentProject.id,
+          index: state.todoItems.length,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      updateState({ todoItems: [...state.todoItems, res.data] });
+      setDescription("");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+    e.target.scrollIntoView();
   };
   return (
     <div className="task-container">
@@ -43,32 +78,40 @@ const TasksList = ({ title, state, innerRef, id2List, style }) => {
       </h6>
       <div className="project-manager-tasks" ref={innerRef} style={style}>
         {state[id2List[title]] &&
-          state[id2List[title]].map((t, index) => (
-            <Draggable key={`${t.id}`} draggableId={`${t.id}`} index={index}>
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                >
-                  <ProjectManagerTask
-                    desc={t.desc}
-                    title={title}
-                    style={getItemStyle(snapshot.isDragging)}
-                  />
-                </div>
-              )}
-            </Draggable>
-          ))}
+          state[id2List[title]].map((t, index) => {
+            return (
+              <Draggable key={`${t.id}`} draggableId={`${t.id}`} index={index}>
+                {(provided, snapshot) => {
+                  return (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <ProjectManagerTask
+                        t={t}
+                        state={state}
+                        title={title}
+                        id2List={id2List}
+                        style={getItemStyle(snapshot.isDragging)}
+                      />
+                    </div>
+                  );
+                }}
+              </Draggable>
+            );
+          })}
         {title === "todo" && (
           <div className="project-manager-new-task">
             {openNewTask ? (
               <form onSubmit={handleSubmit}>
                 <input
                   type="text"
+                  value={description}
                   name="description"
                   id="description"
                   placeholder="Task"
+                  onChange={handleChange}
                 />
                 <div className="new-task-btns">
                   <button type="submit">Add Task</button>

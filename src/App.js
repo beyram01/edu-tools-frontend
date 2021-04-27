@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "./axios.config";
+import axios from "axios";
 import { useDispatch } from "react-redux";
 import { fetch_user, delete_token } from "./Redux/user/userActions";
 import {
@@ -18,22 +19,25 @@ import "./css/App.css";
 
 function App() {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
   const history = useHistory();
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+
     const checkAuth = async () => {
       try {
-        setLoading(true);
         const token = localStorage.getItem("access_token");
         if (token) {
           const res = await api.get("/users/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            cancelToken: source.token,
           });
+          console.log(res);
           if (res.status === 200) {
             dispatch(
               fetch_user({
@@ -51,6 +55,10 @@ function App() {
       }
     };
     checkAuth();
+
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   useEffect(() => {
