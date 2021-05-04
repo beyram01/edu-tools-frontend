@@ -45,7 +45,6 @@ const TasksList = ({ title, innerRef, id2List, style, currentProject }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
       setLoading(true);
       const res = await api.post(
@@ -70,6 +69,13 @@ const TasksList = ({ title, innerRef, id2List, style, currentProject }) => {
     }
     e.target.scrollIntoView();
   };
+
+  const handleKeyPress = (e) => {
+    if (e.which === 13) {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <div className="task-container">
       <h6>
@@ -105,14 +111,16 @@ const TasksList = ({ title, innerRef, id2List, style, currentProject }) => {
           <div className="project-manager-new-task">
             {openNewTask ? (
               <form onSubmit={handleSubmit}>
-                <input
+                <textarea
                   type="text"
                   value={description}
                   name="description"
                   id="description"
+                  rows={3}
                   placeholder="Task"
+                  onKeyPress={handleKeyPress}
                   onChange={handleChange}
-                />
+                ></textarea>
                 <div className="new-task-btns">
                   <button type="submit">Add Task</button>
                   <button onClick={closeNewTask}>Cancel</button>
