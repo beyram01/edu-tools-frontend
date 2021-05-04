@@ -14,7 +14,6 @@
 .project-manager-task #task {
   font-size: 13px;
   padding: 0.3rem 0.3rem;
-  height: fit-content;
 }
 .project-manager-task > div:first-child > div {
   padding: 0 0.2rem;
@@ -54,9 +53,10 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 .controls-btns > div > button:hover {
-  background-color: var(--dark-grey);
+  transform: translateX(3px);
 }
 
 .controls-btns > div:last-child > button {
