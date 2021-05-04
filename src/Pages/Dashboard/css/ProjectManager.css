@@ -83,6 +83,7 @@
   padding: 0 0.5rem;
   margin-left: 0.5rem;
   font-size: 15px;
+  cursor: pointer;
 }
 
 @media (max-width: 850px) {

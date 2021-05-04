@@ -30,6 +30,9 @@
 .project-manager-task hr {
   margin: 0 1rem;
 }
+.project-manager-task textarea {
+  margin-top: 0.3rem;
+}
 .project-manager-task > .controls {
   display: flex;
   justify-content: space-between;

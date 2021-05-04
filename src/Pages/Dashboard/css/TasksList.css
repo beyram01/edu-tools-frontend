@@ -78,6 +78,7 @@
   font-weight: 300;
   font-size: 12px;
   padding: 0.3rem 0.7rem !important;
+  cursor: pointer;
 }
 .new-task-btns > button:first-child {
   background-color: var(--pirple);

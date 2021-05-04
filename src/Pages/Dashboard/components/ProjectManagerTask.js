@@ -73,8 +73,7 @@ const ProjectManagerTask = ({ t, innerRef, style, title, id2List }) => {
     setTask(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       setLoading(true);
       await api.put(
@@ -115,6 +114,12 @@ const ProjectManagerTask = ({ t, innerRef, style, title, id2List }) => {
     updateState({ [id2List[t.status]]: filtred });
   };
 
+  const handleKeyPress = (e) => {
+    if (e.which === 13) {
+      handleSubmit();
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -122,14 +127,16 @@ const ProjectManagerTask = ({ t, innerRef, style, title, id2List }) => {
       ) : (
         <div className="project-manager-task" ref={innerRef} style={style}>
           {open ? (
-            <form onSubmit={handleSubmit}>
-              <input
+            <form>
+              <textarea
                 type="text"
                 name="task"
                 id="task"
+                rows={3}
                 value={task}
+                onKeyPress={handleKeyPress}
                 onChange={handleChange}
-              />
+              ></textarea>
             </form>
           ) : (
             <div>
