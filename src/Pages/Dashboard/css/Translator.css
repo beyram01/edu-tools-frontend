@@ -2,6 +2,7 @@
   width: 80%;
   background-color: var(--dashboard-grey);
   padding: 2rem 2rem;
+  overflow-y: scroll;
 }
 .translator > h4 {
   margin-bottom: 1rem;

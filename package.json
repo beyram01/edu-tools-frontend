@@ -10,6 +10,7 @@
     "axios": "^0.21.1",
     "axios-jsonp": "^1.0.4",
     "date-fns": "^2.19.0",
+    "ibm-watson": "^6.0.4",
     "interweave": "^12.7.1",
     "react": "^17.0.1",
     "react-beautiful-dnd": "^13.1.0",
