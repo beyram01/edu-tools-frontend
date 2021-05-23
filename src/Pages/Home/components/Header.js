@@ -14,12 +14,13 @@ const Header = ({ setRegisterModel }) => {
           Lorem Ipsum is simply <span className="pirple">Dummy</span>
         </h1>
         <p className="hero-description">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s
+          A new tool that blends your everyday work apps into one. It's the
+          all-in-one workspace for you
         </p>
         <div className="call-to-action">
-          <button className="btn btn-stroke">Try Our Tools</button>
+          <a href="/#contact" className="btn btn-stroke">
+            Contact Us
+          </a>
           <button className="btn btn-fill" onClick={openRegisterModel}>
             Get Started
           </button>
