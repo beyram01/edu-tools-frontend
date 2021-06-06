@@ -1,5 +1,6 @@
 # Edu-tools
-[**Backend Repository**](https://github.com/beyram01/edu-tools-backend)\n
+[**Backend Repository**](https://github.com/beyram01/edu-tools-backend)
+
 [**Demo**](https://edu-tools.netlify.app/)
 
 
